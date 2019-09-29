@@ -1,6 +1,8 @@
 # depslib dependency file v1.0
-1567986865 source:/root/Desktop/Ben/Galaga/main.cpp
+1569720850 source:/root/Desktop/Ben/Galaga/main.cpp
 	<cstdlib>
 	<stdlib.h>
 	<SDL/SDL.h>
+	<iostream>
+	<time.h>
 

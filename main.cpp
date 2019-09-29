@@ -5,6 +5,10 @@
 #endif
 
 #include <SDL/SDL.h>
+#include <iostream>
+#include <time.h>
+
+using namespace std;
 
 int main ( int argc, char** argv )
 {
@@ -43,6 +47,8 @@ int main ( int argc, char** argv )
     // TODO: modify game loop
     // game loop
     bool done = false;
+    int fps;
+    time_t lastUpdatedTime = time(NULL);
     while (!done)
     {
         // message processing loop
@@ -65,6 +71,26 @@ int main ( int argc, char** argv )
                         done = true;
                     if (event.key.keysym.sym == SDLK_q)
                         done = true;
+                    switch(event.key.keysym.sym) {
+                        case SDLK_w:
+                            cout << "Up key pressed" << endl;
+                            break;
+                        case SDLK_s:
+                            cout << "Down key pressed" << endl;
+                            break;
+                        case SDLK_a:
+                            cout << "Left key pressed" << endl;
+                            break;
+                        case SDLK_d:
+                            cout << "Right key pressed" << endl;
+                            break;
+                        case SDLK_q:
+                            done = true;
+                            break;
+                        case SDLK_ESCAPE:
+                            done = true;
+                            break;
+                        }
                     break;
                 }
             } // end switch
@@ -82,6 +108,16 @@ int main ( int argc, char** argv )
 
         // finally, update the screen :)
         SDL_Flip(screen);
+        fps = fps + 1;
+
+        time_t currentTime = time(NULL);
+        double differenceSeconds = difftime(currentTime, lastUpdatedTime);
+        if (differenceSeconds >= 1) {
+            cout << "Frames per second: " << fps << endl;
+            fps = 0;
+            lastUpdatedTime = currentTime;
+        }
+
     } // end main loop
 
     // free loaded bitmap
