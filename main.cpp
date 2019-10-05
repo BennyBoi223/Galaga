@@ -27,7 +27,7 @@ int main ( int argc, char** argv )
                                            SDL_HWSURFACE|SDL_DOUBLEBUF);
     if ( !screen )
     {
-        printf("Unable to set 640x480 video: %s\n", SDL_GetError());
+        //printf("Unable to set 640x480 video: %s\n", SDL_GetError());
         return 1;
     }
 
@@ -49,6 +49,9 @@ int main ( int argc, char** argv )
     bool done = false;
     int fps;
     time_t lastUpdatedTime = time(NULL);
+
+    SDL_Rect player = {0,73, 150, 100};
+
     while (!done)
     {
         // message processing loop
@@ -66,32 +69,35 @@ int main ( int argc, char** argv )
                 // check for keypresses
             case SDL_KEYDOWN: // KEYUP
                 {
-                    // exit if ESCAPE is pressed
-                    if (event.key.keysym.sym == SDLK_ESCAPE)
-                        done = true;
-                    if (event.key.keysym.sym == SDLK_q)
-                        done = true;
                     switch(event.key.keysym.sym) {
                         case SDLK_w:
+                            player.y -= 25;
                             cout << "Up key pressed" << endl;
                             break;
                         case SDLK_s:
+                            player.y += 25;
                             cout << "Down key pressed" << endl;
                             break;
                         case SDLK_a:
+                            player.x -= 25;
                             cout << "Left key pressed" << endl;
                             break;
                         case SDLK_d:
+                            player.x += 25;
                             cout << "Right key pressed" << endl;
                             break;
+                        case SDLK_e:
+                            player.w += 25;
+                            player.h += 25;
+                            break;
                         case SDLK_q:
-                            done = true;
+                            player.w -= 25;
+                            player.h -= 25;
                             break;
                         case SDLK_ESCAPE:
                             done = true;
                             break;
                         }
-                    break;
                 }
             } // end switch
         } // end of message processing
@@ -102,13 +108,14 @@ int main ( int argc, char** argv )
         SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
 
         // draw bitmap
-        SDL_BlitSurface(bmp, 0, screen, &dstrect);
+        //SDL_BlitSurface(bmp, 0, screen, &dstrect);
 
-        // DRAWING ENDS HERE
+        SDL_FillRect(screen, &player, SDL_MapRGB(screen->format, 253,254, 254));
 
         // finally, update the screen :)
         SDL_Flip(screen);
         fps = fps + 1;
+
 
         time_t currentTime = time(NULL);
         double differenceSeconds = difftime(currentTime, lastUpdatedTime);
